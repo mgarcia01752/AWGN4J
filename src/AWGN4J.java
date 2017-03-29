@@ -37,17 +37,14 @@ public class AWGN4J {
 	 */
 	public static Complex getAWGN(Complex complex, double dSNR) {
 	
-		/* Calculate Magnitude */
-		Complex complexMagnatude = complex.pow(2);
-		
 		/* (I^2 + Q^2)/2*SNR_Lin = Noise Sigma */
-		double dNoiseSigma = Math.sqrt((complexMagnatude.getReal()+complexMagnatude.getImaginary())/(2*antiLog(dSNR)));
+		double dNoiseSigma = Math.sqrt((Math.pow(complex.getReal(),2)+Math.pow(complex.getImaginary(),2))/(2*antiLog(dSNR)));
 		
 		/*Calculate Noise */
 		Complex awgnComplex = new Complex((GRG.nextNormalizedDouble()*dNoiseSigma),(GRG.nextNormalizedDouble()*dNoiseSigma));
 		
 		/*Apply Noise to Complex*/		
-		return complex.add(awgnComplex);
+		return new Complex(complex.getReal()+awgnComplex.getReal(),complex.getImaginary()+awgnComplex.getImaginary());
 		
 	}
 	
